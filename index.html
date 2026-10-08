@@ -6,81 +6,167 @@
 <title>HASI TT 8N Racing – PC</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#081018;font-family:Arial,sans-serif;color:#fff}
-#world{position:fixed;inset:0;background:linear-gradient(#6ea8ce 0 44%,#486f43 44% 100%)}
+#world{position:fixed;inset:0;background:linear-gradient(#79b8e6 0 43%,#4e8b48 43% 100%);overflow:hidden}
+.sun{position:absolute;width:90px;height:90px;border-radius:50%;right:10%;top:8%;background:#fff5bd;box-shadow:0 0 45px #fff8}
 .mountain{position:absolute;bottom:32%;width:0;height:0;border-left:27vw solid transparent;border-right:27vw solid transparent;border-bottom:29vw solid #536b6c}
 .m1{left:-17vw}.m2{left:25vw;transform:scale(.78);border-bottom-color:#657b7c}.m3{left:62vw;transform:scale(.62);border-bottom-color:#4d6264}
 #road{position:absolute;left:50%;bottom:-17%;width:105%;height:92%;transform:translateX(-50%) perspective(500px) rotateX(58deg);background:#303235;clip-path:polygon(31% 0,69% 0,100% 100%,0 100%);box-shadow:0 -4px 0 #777}
 #lane{position:absolute;left:50%;top:0;width:7px;height:100%;transform:translateX(-50%);background:repeating-linear-gradient(#f5efd7 0 7%,transparent 7% 14%)}
 .curbs{position:absolute;top:0;bottom:0;width:5%;background:repeating-linear-gradient(#eee 0 7%,#d21e2a 7% 14%);opacity:.9}
 #curbL{left:26%}#curbR{right:26%}
-#car{position:absolute;left:50%;bottom:17%;width:220px;height:145px;transform:translateX(-50%);z-index:5;filter:drop-shadow(0 22px 9px #0008)}
-.body{position:absolute;left:18px;bottom:15px;width:184px;height:72px;background:linear-gradient(#25282b,#050607 72%);border-radius:31px 31px 15px 15px;box-shadow:inset 0 5px 10px #fff2}
-.hood{position:absolute;left:43px;bottom:68px;width:139px;height:38px;background:#111315;border-radius:28px 26px 8px 8px;transform:skewX(-8deg)}
-.cabin{position:absolute;left:62px;bottom:78px;width:98px;height:49px;background:#16242d;clip-path:polygon(14% 100%,25% 8%,75% 8%,90% 100%);border:2px solid #111}
-.wind{position:absolute;left:77px;bottom:87px;width:67px;height:30px;background:linear-gradient(145deg,#46606e,#101920);clip-path:polygon(14% 100%,25% 0,75% 0,90% 100%)}
-.roll{position:absolute;left:79px;bottom:126px;width:55px;height:16px;border-top:5px solid #bbb;border-radius:50%}
-.wheel{position:absolute;bottom:-3px;width:42px;height:42px;border-radius:50%;background:#0b0c0e;border:7px solid #26292c;box-shadow:inset 0 0 0 5px #aaa}
-.w1{left:25px}.w2{right:25px}
-.light{position:absolute;bottom:52px;width:30px;height:11px;background:#d9efff;box-shadow:0 0 16px #9bd5ff;border-radius:50%}.l1{left:36px}.l2{right:36px}
-.plate{position:absolute;left:83px;bottom:27px;width:53px;height:13px;background:#eee;color:#111;text-align:center;font:bold 9px Arial;line-height:13px;border-radius:2px}
+
+/* TT 8N - layered pseudo-3D model */
+#car{position:absolute;left:50%;bottom:15%;width:360px;height:230px;transform:translateX(-50%);z-index:5;filter:drop-shadow(0 28px 12px #0009);transition:filter .2s}
+.shadow{position:absolute;left:35px;bottom:12px;width:290px;height:42px;border-radius:50%;background:#0008;filter:blur(8px)}
+.chassis{position:absolute;left:25px;bottom:42px;width:310px;height:105px;background:linear-gradient(165deg,#32363a 0%,#080a0b 45%,#020303 100%);border-radius:95px 110px 45px 45px/55px 62px 35px 35px;box-shadow:inset 0 7px 13px #ffffff22,inset 0 -10px 20px #000}
+.hood{position:absolute;left:68px;bottom:105px;width:220px;height:67px;background:linear-gradient(170deg,#35393c,#111416 70%);border-radius:95px 85px 25px 25px/38px 35px 18px 18px;transform:skewX(-7deg);box-shadow:inset 0 4px 9px #fff2}
+.bumper{position:absolute;left:35px;bottom:43px;width:290px;height:52px;background:linear-gradient(#16191b,#030404);border-radius:35px 35px 22px 22px}
+.grille{position:absolute;left:135px;bottom:48px;width:88px;height:32px;background:#050606;border:2px solid #555;border-radius:10px 10px 18px 18px;clip-path:polygon(10% 0,90% 0,100% 100%,0 100%)}
+.grille:after{content:"";position:absolute;inset:5px;background:repeating-linear-gradient(90deg,#111 0 6px,#666 6px 8px)}
+.logo{position:absolute;left:168px;bottom:60px;color:#ddd;font-weight:900;font-size:12px;z-index:3}
+.cabin{position:absolute;left:103px;bottom:127px;width:160px;height:77px;background:#111820;clip-path:polygon(8% 100%,17% 5%,78% 0,94% 100%);border:3px solid #090b0c;box-shadow:inset 0 0 12px #7ea0b522}
+.windshield{position:absolute;left:125px;bottom:139px;width:112px;height:48px;background:linear-gradient(145deg,#5e7b88,#111b22 75%);clip-path:polygon(10% 100%,18% 0,76% 0,91% 100%);border:1px solid #7b8c94}
+.dash{position:absolute;left:136px;bottom:130px;width:92px;height:15px;background:#080a0b;border-radius:50%}
+.roll1,.roll2{position:absolute;bottom:189px;width:6px;height:27px;background:#c4c4c4;border-radius:5px;z-index:2}.roll1{left:130px}.roll2{left:229px}
+.mirror{position:absolute;bottom:153px;width:16px;height:8px;background:#111;border-radius:5px}.mi1{left:95px}.mi2{right:93px}
+.wheel{position:absolute;bottom:24px;width:61px;height:61px;border-radius:50%;background:#090a0b;border:10px solid #181b1d;box-shadow:inset 0 0 0 5px #aeb1b3,inset 0 0 0 12px #45484a,0 4px 8px #000}
+.w1{left:48px}.w2{right:48px}
+.caliper{position:absolute;bottom:43px;width:11px;height:22px;background:#d31220;border-radius:5px;z-index:2}.c1{left:89px}.c2{right:89px}
+.light{position:absolute;bottom:81px;width:55px;height:23px;background:linear-gradient(90deg,#fff,#a9dcff);box-shadow:0 0 20px #b9e7ff;border-radius:65% 35% 35% 65%;z-index:3}
+.l1{left:53px;transform:rotate(-7deg)}.l2{right:53px;transform:scaleX(-1) rotate(-7deg)}
+.indicator{position:absolute;bottom:72px;width:20px;height:8px;background:#ff9d20;border-radius:50%;z-index:4}.i1{left:95px}.i2{right:95px}
+.plate{position:absolute;left:153px;bottom:45px;width:68px;height:17px;background:#eee;color:#111;text-align:center;font:bold 11px Arial;line-height:17px;border-radius:2px;z-index:6}
+.spoiler{position:absolute;left:74px;bottom:184px;width:205px;height:13px;background:#090a0b;border-radius:10px;box-shadow:0 3px 5px #000}
+.spoiler:before,.spoiler:after{content:"";position:absolute;bottom:-13px;width:6px;height:18px;background:#111}.spoiler:before{left:22px}.spoiler:after{right:22px}
+.roof{position:absolute;left:102px;bottom:201px;width:160px;height:6px;background:#aaa;border-radius:50%;opacity:1;transform:scaleX(.92);transform-origin:center}
+#car.open .roof{opacity:0}
+#car.open .cabin{height:48px;bottom:127px}
+#car.open .windshield{height:30px;bottom:139px}
 #hud{position:fixed;top:16px;left:18px;right:18px;z-index:20;display:flex;justify-content:space-between;pointer-events:none}
 .pill{background:#071018c9;border:1px solid #fff3;padding:10px 14px;border-radius:13px;font-weight:700}
 #speed{font-size:24px}
 #start{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:#0007;backdrop-filter:blur(5px)}
-.card{width:430px;max-width:90vw;padding:30px;border-radius:25px;background:#0a1119ed;border:1px solid #fff2;text-align:center;box-shadow:0 30px 90px #0009}
-.card h1{font-size:34px;margin:0 0 8px}.card p{opacity:.78;line-height:1.5}
+.card{width:450px;max-width:90vw;padding:30px;border-radius:25px;background:#0a1119ed;border:1px solid #fff2;text-align:center;box-shadow:0 30px 90px #0009}
+.card h1{font-size:36px;margin:0 0 8px}.card p{opacity:.78;line-height:1.5}
 #go{border:0;border-radius:14px;padding:15px 30px;font-size:17px;font-weight:800;cursor:pointer}
 #help{position:fixed;left:18px;bottom:18px;z-index:15;background:#071018bb;padding:10px 14px;border-radius:12px;font-size:13px;color:#ddd}
 .night{filter:brightness(.58) saturate(.8)}
 #flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:40}
+
+.opponent{position:absolute;width:115px;height:70px;z-index:4;filter:drop-shadow(0 10px 6px #0008);transition:transform .15s}
+.oppBody{position:absolute;left:10px;top:14px;width:95px;height:43px;border-radius:35px 40px 18px 18px;background:linear-gradient(#b9b9b9,#303236 60%,#101112);box-shadow:inset 0 3px 5px #fff4}
+.o1{left:37%;bottom:49%;transform:scale(.55)} .o2{left:60%;bottom:63%;transform:scale(.38)} .o3{left:45%;bottom:75%;transform:scale(.28)}
+.ow1,.ow2{position:absolute;bottom:4px;width:20px;height:20px;border-radius:50%;background:#111;border:4px solid #555}.ow1{left:18px}.ow2{right:18px}
+.o2 .oppBody{background:linear-gradient(#d8d8d8,#666,#151515)} .o3 .oppBody{background:linear-gradient(#28384d,#17202a,#080b0e)}
+.corner{position:absolute;left:50%;top:44%;width:42%;height:10%;border:6px solid #444;border-top:0;border-radius:0 0 50% 50%;opacity:.8}
 </style>
 </head>
 <body>
 <div id="world">
+ <div class="sun"></div>
  <div class="mountain m1"></div><div class="mountain m2"></div><div class="mountain m3"></div>
  <div id="road"><div id="lane"></div><div id="curbL" class="curbs"></div><div id="curbR" class="curbs"></div></div>
- <div id="car"><div class="body"></div><div class="hood"></div><div class="cabin"></div><div class="wind"></div><div class="roll"></div><div class="wheel w1"></div><div class="wheel w2"></div><div class="light l1"></div><div class="light l2"></div><div class="plate">HASI</div></div>
+
+ <div class="opponent o1"><div class="oppBody"></div><div class="oppWheel ow1"></div><div class="oppWheel ow2"></div></div>
+ <div class="opponent o2"><div class="oppBody"></div><div class="oppWheel ow1"></div><div class="oppWheel ow2"></div></div>
+ <div class="opponent o3"><div class="oppBody"></div><div class="oppWheel ow1"></div><div class="oppWheel ow2"></div></div>
+ <div id="car">
+  <div class="shadow"></div>
+  <div class="spoiler"></div><div class="roof"></div>
+  <div class="cabin"></div><div class="windshield"></div><div class="dash"></div>
+  <div class="roll1"></div><div class="roll2"></div>
+  <div class="mirror mi1"></div><div class="mirror mi2"></div>
+  <div class="chassis"></div><div class="hood"></div><div class="bumper"></div>
+  <div class="grille"></div><div class="logo">TT</div>
+  <div class="light l1"></div><div class="light l2"></div>
+  <div class="indicator i1"></div><div class="indicator i2"></div>
+  <div class="wheel w1"></div><div class="wheel w2"></div>
+  <div class="caliper c1"></div><div class="caliper c2"></div>
+  <div class="plate">HASI</div>
+ </div>
 </div>
-<div id="hud"><div class="pill">🏁 Runde <span id="lap">1/3</span> · <span id="time">00:00.0</span></div><div class="pill"><span id="speed">0</span> km/h</div></div>
+<div id="hud"><div class="pill">🏁 Runde <span id="lap">1/3</span> · <span id="time">00.0</span> · Best <span id="best">--.-</span></div><div class="pill"><span id="pos">1/4</span> · <span id="speed">0</span> km/h</div></div>
 <div id="help">W / ↑ Gas · S / ↓ Bremse · A,D / ←,→ Lenken · R Dach · N Nacht · ESC Pause</div>
-<div id="flash"></div>
-<div id="start"><div class="card"><h1>🏁 HASI TT 8N</h1><p>PC-Version<br>Schwarzer TT Roadster · Kennzeichen HASI</p><button id="go">FAHRT STARTEN</button></div></div>
+<div id="start"><div class="card"><h1>🏁 HASI TT 8N</h1><p>PC-Version · schwarzer TT 8N Roadster<br>rote Bremssättel · silberne Überrollbügel · Kennzeichen HASI</p><button id="go">FAHRT STARTEN</button></div></div>
 <script>
-const car=document.getElementById('car'), start=document.getElementById('start'), world=document.getElementById('world');
-const speedEl=document.getElementById('speed'), timeEl=document.getElementById('time'), flash=document.getElementById('flash');
+const car=document.getElementById('car'),start=document.getElementById('start'),world=document.getElementById('world');
+const speedEl=document.getElementById('speed'),timeEl=document.getElementById('time');
 let started=false,paused=false,speed=0,steer=0,time=0,last=performance.now(),roof=false;
 const keys={};
 addEventListener('keydown',e=>{
-  keys[e.code]=true;
-  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();
-  if(e.code==='KeyR'&&!e.repeat) roof=!roof;
-  if(e.code==='KeyN'&&!e.repeat) world.classList.toggle('night');
-  if(e.code==='Escape'&&!e.repeat) paused=!paused;
+ keys[e.code]=true;
+ if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();
+ if(e.code==='KeyR'&&!e.repeat){roof=!roof;car.classList.toggle('open',roof)}
+ if(e.code==='KeyN'&&!e.repeat)world.classList.toggle('night');
+ if(e.code==='Escape'&&!e.repeat)paused=!paused;
 });
 addEventListener('keyup',e=>keys[e.code]=false);
 document.getElementById('go').onclick=()=>{started=true;start.style.display='none';last=performance.now();requestAnimationFrame(loop)};
 
+const opponents=[...document.querySelectorAll('.opponent')];
+const lapEl=document.getElementById('lap'), bestEl=document.getElementById('best'), posEl=document.getElementById('pos');
+let raceDistance=0, lapStart=0, bestLap=Infinity, roadPhase=0;
+const opponentState=opponents.map((el,i)=>({el,dist:(i+1)*280, lane:i===1?0.25:i===2?-0.3:0, speed:115+i*14}));
+
+function fmt(t){return t.toFixed(1).padStart(4,'0')}
+
+function updateOpponents(dt){
+  opponentState.forEach((o,i)=>{
+    o.dist += o.speed*dt;
+    const rel=((o.dist-raceDistance)%1800+1800)%1800;
+    const perspective=Math.max(.12,1-rel/1900);
+    const y=86-rel/1900*55;
+    const x=50+o.lane*22 + Math.sin((raceDistance+o.dist)/240+i)*3;
+    o.el.style.left=x+'%';
+    o.el.style.bottom=y+'%';
+    o.el.style.transform=`translateX(-50%) scale(${.25+perspective*.8})`;
+    o.el.style.opacity=rel>1700?.2:1;
+  });
+}
+
+function animateRoad(dt){
+  roadPhase=(roadPhase+speed*dt*0.015)%14;
+  document.getElementById('lane').style.backgroundPosition=`0 ${roadPhase}%`;
+  document.getElementById('curbL').style.backgroundPosition=`0 ${roadPhase}%`;
+  document.getElementById('curbR').style.backgroundPosition=`0 ${-roadPhase}%`;
+  // subtle steering camera movement
+  document.getElementById('road').style.transform=`translateX(calc(-50% + ${steer*18}px)) perspective(500px) rotateX(58deg)`;
+}
+
+function checkLap(dt){
+  raceDistance += speed*dt/3.6;
+  const lapDist=1800;
+  const currentLap=Math.min(3,Math.floor(raceDistance/lapDist)+1);
+  lapEl.textContent=currentLap+'/3';
+  if(currentLap>1 && currentLap<=3 && Math.floor(raceDistance/lapDist)!==Math.floor((raceDistance-speed*dt/3.6)/lapDist)){
+    const lapTime=time-lapStart;
+    if(lapTime<bestLap){bestLap=lapTime;bestEl.textContent=fmt(bestLap)}
+    lapStart=time;
+  }
+  if(currentLap>=3 && raceDistance>=lapDist*3){
+    paused=true;
+    start.style.display='grid';
+    document.querySelector('#start h1').textContent='🏆 ZIEL ERREICHT!';
+    document.querySelector('#start p').innerHTML=`Zeit: <b>${fmt(time)}</b><br>Best Lap: <b>${bestLap<Infinity?fmt(bestLap):'--.-'}</b><br><br>Drück den Button für eine neue Runde.`;
+    document.getElementById('go').textContent='NEUES RENNEN';
+    document.getElementById('go').onclick=()=>location.reload();
+  }
+}
+
 function loop(now){
  if(!started)return;
- const dt=Math.min(.04,(now-last)/1000); last=now;
+ const dt=Math.min(.04,(now-last)/1000);last=now;
  if(!paused){
-   const gas=keys.KeyW||keys.ArrowUp, brake=keys.KeyS||keys.ArrowDown;
-   const left=keys.KeyA||keys.ArrowLeft, right=keys.KeyD||keys.ArrowRight;
-   if(gas)speed+=135*dt; else speed-=24*dt;
-   if(brake)speed-=190*dt;
-   if(keys.Space)speed-=260*dt;
-   speed=Math.max(0,Math.min(240,speed));
-   const target=(right?1:0)-(left?1:0);
-   steer+=(target-steer)*Math.min(1,dt*8);
-   car.style.left='calc(50% + '+(steer*95)+'px)';
-   car.style.transform='translateX(-50%) rotateZ('+(-steer*2.5)+'deg)';
-   document.getElementById('lane').style.transform='translateX(calc(-50% + '+steer*38+'px))';
-   time+=dt;
-   speedEl.textContent=Math.round(speed);
-   timeEl.textContent=time.toFixed(1).padStart(4,'0');
+  const gas=keys.KeyW||keys.ArrowUp,brake=keys.KeyS||keys.ArrowDown,left=keys.KeyA||keys.ArrowLeft,right=keys.KeyD||keys.ArrowRight;
+  if(gas)speed+=135*dt;else speed-=24*dt;if(brake)speed-=190*dt;if(keys.Space)speed-=260*dt;
+  speed=Math.max(0,Math.min(240,speed));
+  const target=(right?1:0)-(left?1:0);steer+=(target-steer)*Math.min(1,dt*8);
+  car.style.left='calc(50% + '+(steer*95)+'px)';
+  car.style.transform='translateX(-50%) rotateZ('+(-steer*2.5)+'deg) scale('+(1+speed/1500)+')';
+  document.getElementById('lane').style.transform='translateX(calc(-50% + '+steer*38+'px))';
+  time+=dt; speedEl.textContent=Math.round(speed); timeEl.textContent=fmt(time); checkLap(dt); updateOpponents(dt); animateRoad(dt); posEl.textContent=(1+opponentState.filter(o=>o.dist>raceDistance+120).length)+'/4';
  }
  requestAnimationFrame(loop);
 }
 </script>
-</body>
-</html>
+</body></html>
